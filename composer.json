@@ -1,0 +1,25 @@
+{
+    "name": "taq/phpr",
+    "type": "library",
+    "description": "Extending some PHP classes to be used on a more functional way",
+    "keywords": ["language","functional"],
+    "homepage": "http://github.com/taq/phpr",
+    "license": "GPL-2.0",
+    "version": "0.0.1",
+    "authors": [
+        {
+            "name": "Eustaquio Rangel",
+            "email": "eustaquiorangel@gmail.com",
+            "homepage": "http://eustaquiorangel.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0"
+    },
+    "autoload": {
+       "psr-4": {
+          "PHPR\\": "src"
+       }
+    }
+}
