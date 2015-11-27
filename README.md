@@ -23,7 +23,7 @@ No more guesses and wonderings of what happened if it returns 0 or false.
 
 ## Samples
 
-```
+```php
 $t = new PHPR\Collection([0 => "zero", 1 => "one", 2 => "two"]);
 
 // outputs:
