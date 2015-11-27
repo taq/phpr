@@ -44,13 +44,13 @@ trait Enumerable
     /**
      * Sort the values, returning a new array
      *
-     * @return mixed array
+     * @return mixed Collection
      */
     public function sort()
     {
         $ar = array_merge(array(), $this->_array);
         sort($ar);
-        return $ar;
+        return new Collection($ar);
     }
 
     /**

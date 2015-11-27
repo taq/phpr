@@ -25,9 +25,9 @@ namespace PHPR;
  * @license  http://www.gnu.org/copyleft/gpl.html GPL
  * @link     http://github.com/taq/phpr
  */
-class Collection
+class Collection implements \ArrayAccess
 {
-    use Enumerable;
+    use Enumerable, ArrayAccessInterface;
     private $_array = null;
 
     /**
