@@ -269,4 +269,26 @@ class EnumerableTest extends PHPUnit_Framework_TestCase
         $this->assertEquals("one", array_values($neg->values())[0]);
         $this->assertEquals("two", array_values($neg->values())[1]);
     }
+
+    /**
+     * Test inject
+     *
+     * @return null
+     */
+    public function testInject()
+    {
+        $col = new PHPR\Collection([1, 2, 3, 4, 5]);
+        $this->assertEquals(15, $col->inject(function($memo, $value) { return $memo + $value; }));
+    }
+
+    /**
+     * Test inject with start value
+     *
+     * @return null
+     */
+    public function testInjectStart()
+    {
+        $col = new PHPR\Collection([1, 2, 3, 4, 5]);
+        $this->assertEquals(25, $col->inject(function($memo, $value) { return $memo + $value; }, 10));
+    }
 }

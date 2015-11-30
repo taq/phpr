@@ -161,5 +161,18 @@ trait Enumerable
     {
         return array_keys($this->_array) !== range(0, count($this->_array) - 1);
     }
+
+    /**
+     * Reduce collection
+     *
+     * @param mixed $func function to partition elements
+     * @param mixed $ini  initial value
+     *
+     * @return mixed value
+     */
+    public function inject($func, $ini = null)
+    {
+        return array_reduce($this->_array, $func, $ini);
+    }
 }
 

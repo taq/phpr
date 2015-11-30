@@ -57,7 +57,7 @@ $t->includes("three");  // false
 //   string(4) "zero"
 // }
 $sorted = $t->sort();
-var_dump($sorted);
+var_dump($sorted->values());
 
 $t->min(); // "one"
 $t->max(); // "zero"
@@ -71,7 +71,7 @@ $t->max(); // "zero"
 $selected = $t->select(function($e) {
    return strlen($e) > 3;
 });
-var_dump($selected);
+var_dump($selected->values());
 
 // map
 // outputs:
@@ -86,7 +86,7 @@ var_dump($selected);
 $changed = $t->map(function($e) {
    return strrev($e);
 });
-var_dump($changed);
+var_dump($changed->values());
 
 $t->all(function($e) { return strlen($e) > 2; })); // true
 $t->all(function($e) { return strlen($e) > 3; })); // false
@@ -105,5 +105,5 @@ $t->any(function($e) { return strlen($e) > 4; })); // false
 $changed = self::$_col->map(function($e) {
    return strrev($e);
 })->select(function($e) { return strlen($e) <= 3; });
-var_dump($changed);
+var_dump($changed->values());
 ```
