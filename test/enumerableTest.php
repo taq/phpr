@@ -218,4 +218,55 @@ class EnumerableTest extends PHPUnit_Framework_TestCase
         $this->assertTrue(self::$_col->any(function($e)  { return strlen($e) > 3; }));
         $this->assertFalse(self::$_col->any(function($e) { return strlen($e) > 4; }));
     }
+
+    /**
+     * Test partition
+     *
+     * @return null
+     */
+    public function testPartition()
+    {
+        $part = self::$_col->partition(function($e) {
+            return strlen($e) > 3;
+        });
+        $this->assertEquals(2, sizeof($part));
+
+        $pos = $part[0];
+        $neg = $part[1];
+
+        $this->assertEquals(1, sizeof($pos->values()));
+        $this->assertEquals("zero", $pos[0]);
+
+        $this->assertEquals(2, sizeof($neg->values()));
+        $this->assertEquals("one", $neg[0]);
+        $this->assertEquals("two", $neg[1]);
+    }
+
+    /**
+     * Test associative partition
+     *
+     * @return null
+     */
+    public function testPartitionAssoc()
+    {
+        $ass  = new PHPR\Collection(["1" => "one", "2" => "two", "3" => "three"]);
+        $part = $ass->partition(function($e) {
+            return strlen($e) > 3;
+        });
+        $this->assertEquals(2, sizeof($part));
+
+        $pos = $part[0];
+        $neg = $part[1];
+
+        $this->assertEquals(1, sizeof($pos->values()));
+        $this->assertEquals("3", array_keys($pos->values())[0]);
+        $this->assertEquals("three", array_values($pos->values())[0]);
+
+        $this->assertEquals(2, sizeof($neg->values()));
+        $this->assertEquals("1", array_keys($neg->values())[0]);
+        $this->assertEquals("2", array_keys($neg->values())[1]);
+
+        $this->assertEquals("one", array_values($neg->values())[0]);
+        $this->assertEquals("two", array_values($neg->values())[1]);
+    }
 }

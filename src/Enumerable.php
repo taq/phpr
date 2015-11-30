@@ -127,6 +127,32 @@ trait Enumerable
     }
 
     /**
+     * Make a partition on the collection, returning two collections
+     *
+     * @param mixed $func function to partition elements
+     *
+     * @return mixed collections
+     */
+    public function partition($func)
+    {
+        $args = (new \ReflectionFunction($func))->getNumberOfParameters();
+        $asso = $this->_isAssoc();
+        $pos  = [];
+        $neg  = [];
+
+        foreach ($this->_array as $key => $value) {
+            $rst = $args === 1 ? $func($value) : $func($key, $value);
+
+            if ($asso) {
+                $rst ? $pos[$key] = $value : $neg[$key] = $value;
+            } else {
+                $rst ? $pos[] = $value : $neg[] = $value;
+            }
+        }
+        return [new Collection($pos), new Collection($neg)];
+    }
+
+    /**
      * Check if the internal array is associative
      *
      * @return boolean
