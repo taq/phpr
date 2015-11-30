@@ -16,7 +16,7 @@ One notable exception to try to make things easier is that PHP have some
 reserved and constant words we cannot reuse even inside a namespace, like `Array`.
 So I needed to call the `Array` class `Collection`, otherwise it will be
 impossible to implement. All the classes have the original object 
-accessible with the `value` method.
+accessible with the `values` method.
 
 Other thing is that some methods just returns a value or null, true or false.
 No more guesses and wonderings of what happened if it returns 0 or false.
@@ -34,6 +34,7 @@ $t->each(function($e) {
    echo "$e\n";
 });
 
+// each
 // outputs:
 // 0 - zero
 // 1 - one
@@ -45,6 +46,7 @@ $t->each(function($key, $val) {
 $t->includes("one");    // true
 $t->includes("three");  // false
 
+// sort
 // outputs:
 // array(3) {
 //   [0] =>
@@ -60,7 +62,8 @@ var_dump($sorted);
 $t->min(); // "one"
 $t->max(); // "zero"
 
-// outputs:
+// select
+// outputs (keeping order):
 // array(1) {
 //   [0] =>
 //   string(4) "zero"
@@ -70,6 +73,7 @@ $selected = $t->select(function($e) {
 });
 var_dump($selected);
 
+// map
 // outputs:
 // array(3) {
 //   [0] =>
@@ -89,4 +93,17 @@ $t->all(function($e) { return strlen($e) > 3; })); // false
 
 $t->any(function($e) { return strlen($e) > 3; })); // true
 $t->any(function($e) { return strlen($e) > 4; })); // false
+
+// chainable methods
+// outputs:
+// array(2) {
+//     [0] =>
+//     string(3) "eno"
+//     [1] =>
+//     string(3) "owt"
+//   }
+$changed = self::$_col->map(function($e) {
+   return strrev($e);
+})->select(function($e) { return strlen($e) <= 3; });
+var_dump($changed);
 ```

@@ -82,7 +82,11 @@ trait Enumerable
      */
     public function select($func)
     {
-        return array_filter($this->_array, $func);
+        $rst = array_filter($this->_array, $func);
+        if (!$this->_isAssoc()) {
+            $rst = array_values($rst);
+        }
+        return new Collection($rst);
     }
 
     /**
@@ -94,7 +98,7 @@ trait Enumerable
      */
     public function map($func)
     {
-        return array_map($func, $this->_array);
+        return new Collection(array_map($func, $this->_array));
     }
 
     /**
@@ -107,7 +111,7 @@ trait Enumerable
     public function all($func)
     {
         $rst = $this->select($func);
-        return sizeof($this->_array) == sizeof($rst);
+        return sizeof($this->_array) == sizeof($rst->values());
     }
 
     /**
@@ -119,7 +123,17 @@ trait Enumerable
      */
     public function any($func)
     {
-        return sizeof($this->select($func)) > 0;
+        return sizeof($this->select($func)->values()) > 0;
+    }
+
+    /**
+     * Check if the internal array is associative
+     *
+     * @return boolean
+     */
+    private function _isAssoc()
+    {
+        return array_keys($this->_array) !== range(0, count($this->_array) - 1);
     }
 }
 

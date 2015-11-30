@@ -90,6 +90,19 @@ class EnumerableTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test chainable sort
+     *
+     * @return null
+     */
+    public function testSortChain()
+    {
+        $selected = self::$_col->sort()->select(function($e) { return strlen($e) <= 3; });;
+        $this->assertEquals(2, sizeof($selected->values()));
+        $this->assertEquals("one", $selected[0]);
+        $this->assertEquals("two", $selected[1]);
+    }
+
+    /**
      * Test minimum value
      *
      * @return null
@@ -119,8 +132,38 @@ class EnumerableTest extends PHPUnit_Framework_TestCase
         $selected = self::$_col->select(function($e) {
             return strlen($e) > 3;
         });
-        $this->assertEquals(1, sizeof($selected));
+        $this->assertEquals(1, sizeof($selected->values()));
         $this->assertEquals("zero", $selected[0]);
+    }
+
+    /**
+     * Test selected elements, ordered
+     *
+     * @return null
+     */
+    public function testSelectOrdered()
+    {
+        $selected = self::$_col->select(function($e) {
+            return strlen($e) <= 3;
+        });
+        $this->assertEquals(2, sizeof($selected->values()));
+        $this->assertEquals("one", $selected[0]);
+        $this->assertEquals("two", $selected[1]);
+    }
+
+    /**
+     * Test chainable select
+     *
+     * @return null
+     */
+    public function testSelectChain()
+    {
+        $sorted = self::$_col->select(function($e) {
+            return strlen($e) <= 3;
+        })->sort();
+        $this->assertEquals(2, sizeof($sorted->values()));
+        $this->assertEquals("one", $sorted[0]);
+        $this->assertEquals("two", $sorted[1]);
     }
 
     /**
@@ -133,10 +176,25 @@ class EnumerableTest extends PHPUnit_Framework_TestCase
         $changed = self::$_col->map(function($e) {
             return strrev($e);
         });
-        $this->assertEquals(3, sizeof($changed));
+        $this->assertEquals(3, sizeof($changed->values()));
         $this->assertEquals("orez", $changed[0]);
         $this->assertEquals("eno",  $changed[1]);
         $this->assertEquals("owt",  $changed[2]);
+    }
+
+    /**
+     * Test chainable map
+     *
+     * @return null
+     */
+    public function testMapChain()
+    {
+        $changed = self::$_col->map(function($e) {
+            return strrev($e);
+        })->select(function($e) { return strlen($e) <= 3; });
+        $this->assertEquals(2, sizeof($changed->values()));
+        $this->assertEquals("eno",  $changed[0]);
+        $this->assertEquals("owt",  $changed[1]);
     }
 
     /**

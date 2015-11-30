@@ -45,7 +45,7 @@ class Collection implements \ArrayAccess
      *
      * @return mixed array
      */
-    public function value()
+    public function values()
     {
         return $this->_array;
     }
