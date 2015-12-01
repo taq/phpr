@@ -90,6 +90,23 @@ trait Enumerable
     }
 
     /**
+     * Reject only the elements that satisfy the function condition
+     *
+     * @param mixed $func function where when returned true, element is rejected
+     *
+     * @return mixed array
+     */
+    public function reject($func)
+    {
+        $selected = $this->select($func);
+        $diff     = array_diff($this->values(), $selected->values());
+        if (!$this->_isAssoc()) {
+            $diff = array_values($diff);
+        }
+        return new Collection($diff);
+    }
+
+    /**
      * Change all the collection values
      *
      * @param mixed $func function to change elements

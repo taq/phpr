@@ -167,6 +167,37 @@ class EnumerableTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test rejected elements
+     *
+     * @return null
+     */
+    public function testReject()
+    {
+        $rejected = self::$_col->reject(function($e) {
+            return strlen($e) > 3;
+        });
+        $this->assertEquals(2, sizeof($rejected->values()));
+        $this->assertEquals("one", $rejected[0]);
+        $this->assertEquals("two", $rejected[1]);
+    }
+
+    /**
+     * Test chainable reject
+     *
+     * @return null
+     */
+    public function testRejectChain()
+    {
+        $rst = self::$_col->reject(function($e) {
+            return strlen($e) <= 3;
+        })->map(function($e) {
+            return strrev($e);
+        });
+        $this->assertEquals(1, sizeof($rst->values()));
+        $this->assertEquals("orez", $rst[0]);
+    }
+
+    /**
      * Test changing elements
      *
      * @return null
