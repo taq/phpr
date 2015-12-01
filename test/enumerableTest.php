@@ -341,8 +341,29 @@ class EnumerableTest extends PHPUnit_Framework_TestCase
      */
     public function testNotFound()
     {
-
         $found = self::$_col->find(function($e) { return strlen($e) > 5; });
         $this->assertNull($found);
+    }
+
+    /**
+     * Test group by method
+     *
+     * @return null
+     */
+    public function testGroupBy()
+    {
+        $grouped = self::$_col->groupBy(function($e) { return strlen($e); });
+
+        $keys = array_keys($grouped->values());
+        sort($keys);
+
+        $this->assertEquals(2, sizeof($keys));
+        $this->assertEquals(3, $keys[0]);
+        $this->assertEquals(4, $keys[1]);
+
+        $this->assertEquals(2, sizeof($grouped->values()));
+        $this->assertEquals("one",  $grouped[3][0]);
+        $this->assertEquals("two",  $grouped[3][1]);
+        $this->assertEquals("zero", $grouped[4][0]);
     }
 }

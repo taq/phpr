@@ -210,5 +210,26 @@ trait Enumerable
         }
         return null;
     }
+
+    /**
+     * Group by 
+     *
+     * @param mixed $func function to group
+     *
+     * @return mixed value
+     */
+    public function groupBy($func)
+    {
+        $rtn  = [];
+        $args = (new \ReflectionFunction($func))->getNumberOfParameters();
+        foreach ($this->_array as $key => $value) {
+            $rst = $args === 1 ? $func($value) : $func($key, $value);
+            if (!isset($rtn[$rst])) {
+                $rtn[$rst] = [];
+            }
+            array_push($rtn[$rst], $value);
+        }
+        return new Collection($rtn);
+    }
 }
 
