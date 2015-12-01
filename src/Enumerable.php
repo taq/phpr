@@ -191,5 +191,24 @@ trait Enumerable
     {
         return array_reduce($this->_array, $func, $ini);
     }
+
+    /**
+     * Find the first found element value
+     *
+     * @param mixed $func function to find elements
+     *
+     * @return mixed value
+     */
+    public function find($func)
+    {
+        $args = (new \ReflectionFunction($func))->getNumberOfParameters();
+        foreach ($this->_array as $key => $value) {
+            $rst = $args === 1 ? $func($value) : $func($key, $value);
+            if ($rst) {
+                return $value;
+            }
+        }
+        return null;
+    }
 }
 

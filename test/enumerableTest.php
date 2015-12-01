@@ -322,4 +322,27 @@ class EnumerableTest extends PHPUnit_Framework_TestCase
         $col = new PHPR\Collection([1, 2, 3, 4, 5]);
         $this->assertEquals(25, $col->inject(function($memo, $value) { return $memo + $value; }, 10));
     }
+
+    /**
+     * Test if found when searching for a valid element
+     *
+     * @return null
+     */
+    public function testFound()
+    {
+        $found = self::$_col->find(function($e) { return strlen($e) <= 3; });
+        $this->assertEquals("one", $found);
+    }
+
+    /**
+     * Test if not found when searching for a invalid element
+     *
+     * @return null
+     */
+    public function testNotFound()
+    {
+
+        $found = self::$_col->find(function($e) { return strlen($e) > 5; });
+        $this->assertNull($found);
+    }
 }
