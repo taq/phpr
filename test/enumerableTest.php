@@ -366,4 +366,14 @@ class EnumerableTest extends PHPUnit_Framework_TestCase
         $this->assertEquals("two",  $grouped[3][1]);
         $this->assertEquals("zero", $grouped[4][0]);
     }
+
+    /**
+     * Test null index
+     *
+     * @return null
+     */
+    public function testNullIndex()
+    {
+        $this->assertNull(self::$_col[10]);
+    }
 }
