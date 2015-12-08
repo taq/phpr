@@ -26,6 +26,11 @@ No more guesses and wonderings of what happened if it returns 0 or false.
 ```php
 $t = new PHPR\Collection([0 => "zero", 1 => "one", 2 => "two"]);
 
+// outputs: 
+// null
+// yay, no more 'undefined index' messages!
+echo $t[10]."\n";
+
 // outputs:
 // zero
 // one
